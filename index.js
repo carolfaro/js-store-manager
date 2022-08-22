@@ -1,12 +1,12 @@
 const express = require('express');
-const routes = require('./routes');
+const producstRoutes = require('./routes/productsRoutes');
 
 const app = require('./app');
 require('dotenv').config();
 
 app.use(express.json());
 
-app.use(routes);
+app.use('/products', producstRoutes);
 
 // não altere esse arquivo, essa estrutura é necessária para à avaliação do projeto
 
