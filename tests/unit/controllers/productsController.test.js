@@ -1,10 +1,11 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
-const productsService = require('../../../services/productsServices');
-const productsController = require('../../../controllers/productsController');
+const productsService = require("../../../services/productsServices");
+const productsController = require("../../../controllers/productsController");
 
 
-describe('Busca todos os produtos no db', () => {
+
+describe('Busca produtos no db', () => {
 
   describe('quando não existem produtos no banco de dados', async () => {
     const response = {};
@@ -24,17 +25,44 @@ describe('Busca todos os produtos no db', () => {
      after(() => productsService.getAllProducts.restore());
 
     it('o status seja 200', async () => {
-      await productsService.getAllProducts(request, response);
+      await productsController.getAllProducts(request, response);
 
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
+    it('retorna um array json com os produtos buscados', async () => {
+      await productsController.getAllProducts(request, response);
 
+      expect(response.json.calledWith(stubProducts[0])).to.be.equal(true);
+ });
+  });
 
-    // it('é chamado o método "json" passando um array', async () => {
-    //   await MoviesController.getAll(request, response);
+   describe('Busca produtos pelo id', async () => {
+     const response = {};
+     const request = { params: '1'};
+     const stubProducts = [
+       { id: 1, name: "Martelo de Thor" }
+     ];
 
-    //   expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
-    // });
-  })
+     before(() => {
+       response.status = sinon.stub().returns(response);
+       response.json = sinon.stub().returns();
+
+       sinon.stub(productsService, "getAllProducts").resolves(stubProducts);
+     });
+
+     after(() => productsService.getAllProducts.restore());
+
+     it('o status seja 200', async () => {
+       await productsController.getByIdProducts(request, response);
+
+       expect(response.status.calledWith(200)).to.be.equal(true);
+     });
+
+     it('retorna um array json com os produtos buscados', async () => {
+       await productsController.getAllProducts(request, response);
+
+       expect(response.json.calledWith(stubProducts[0])).to.be.equal(true);
+     });
+   });
 });
