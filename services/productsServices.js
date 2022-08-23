@@ -7,7 +7,16 @@ const getAllProducts = (id = null) => {
   return productsModel.getProducts();
 };
 
+const addProducts = async ({ name }) => {
+  const { id } = await productsModel.addProducts({ name });
+
+  return {
+    id,
+    name,
+  };
+};
+
 module.exports = {
   getAllProducts,
-  
+  addProducts,
 };
