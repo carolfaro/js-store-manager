@@ -17,6 +17,10 @@ const addProducts = async ({ name }) => {
   };
 };
 
+// const addSalesProducts = async ({ productId, productQuantity }) => {
+//   const [row] = await connection.execute();
+// };
+
 module.exports = {
   getProducts,
   getProductsById,

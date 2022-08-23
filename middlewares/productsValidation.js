@@ -9,7 +9,6 @@ const productsDTO = Joi.object({
 
 const validateAddMiddleware = (req, res, next) => {
   const { error } = productsDTO.validate(req.body, { abortEarly: false });
-  console.log(error);
   if (error) {
     const [messages] = error.details.map((err) => {
       if (err.type === 'any.required') {
