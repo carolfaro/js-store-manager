@@ -17,7 +17,7 @@ const getByIdProducts = async (req, res) => {
 
 const addProducts = async (req, res) => {
   const { name } = req.body;
-  
+
   const newProduct = await productsService.addProducts({ name });
 
   res.status(201).json(newProduct);
