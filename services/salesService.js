@@ -1,26 +1,24 @@
 const salesModel = require('../models/salesModel');
 const productsModel = require('../models/producstModel');
-// const NotFoundError = require('../middlewares/errorDefault');
 
 const salesService = {
-  // async add(data) {
-  //   const id = await salesModel.addSale();
-  //   await salesModel.addSalesProducts(id, data);
-  //   return id;
-  // },
 
   async add(data) {
     const allProducts = await productsModel.findProductsId();
 
     const validation = data.every((item) =>
-      allProducts.some((ele) => item.id === ele.productId));
+      allProducts.some((ele) => ele.id === item.productId));
+    
+    if (!validation) return false;
 
-    if (validation) {
-      const id = await salesModel.addSale();
-      const newSale = await salesModel.addSalesProducts(id, data);
-      return newSale;
-    }
-    return false;
+    const newSale = await salesModel.addSale(data);
+
+    const saleInserted = {
+      id: newSale,
+      itemsSold: data,
+    };
+
+    return saleInserted;
   },
 
   async get(id) {
@@ -53,3 +51,11 @@ module.exports = salesService;
   // async errorProduct(_req, res) {
   //   res.status(404).json({ message: 'Product not found' });
   // },
+  // const getByPK = async (id) => {
+  //   const [product] = await connection.execute(
+  //     "SELECT * FROM StoreManager.products WHERE id = ?;",
+  //     [id]
+  //   );
+  //   if (!product[0]) return null;
+  //   return product[0];
+  // };

@@ -4,12 +4,18 @@ const salesController = {
 
   async addSale(req, res) {
     const data = req.body;
-    const id = await salesService.add(data);
-    // console.log(req.body);
-    if (!id) {
-      return res.status(404).json({ message: 'Product not found' });
+
+    try {
+      const newSaleAdd = await salesService.add(data);
+
+      if (!newSaleAdd) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+
+      return res.status(201).json(newSaleAdd);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
     }
-    return res.status(201).json(id);
   },
 
   async allSales(_req, res) {
@@ -28,3 +34,10 @@ const salesController = {
 };
 
 module.exports = salesController;
+
+//   const newSale = await salesService.add(data);
+  //   // console.log(req.body);
+  //   if (!newSale) {
+  //      return res.status(404).json({ message: 'Product not found' });
+  //   }
+  //  return res.status(201).json(newSale);

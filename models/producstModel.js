@@ -4,11 +4,13 @@ const getProducts = () => connection.execute('SELECT * FROM StoreManager.product
 
 const findProductsId = async () => {
   const [products] = await connection.execute('SELECT * FROM StoreManager.products');
+  // console.log(products);
   return products;
 };
+// cade o id
 
 const getProductsById = (id) => connection
-  .execute('SELECT * FROM StoreManager.sales WHERE id = ?;', [id]);
+  .execute('SELECT * FROM StoreManager.products WHERE id = ?;', [id]);
 
 const addProducts = async ({ name }) => {
   const [result] = await connection.execute(

@@ -1,35 +1,19 @@
 const connection = require('../db/index');
 
 const salesModel = {
-  async addSale() {
-    const sql = 'INSERT INTO StoreManager.sales (date) VALUES (default)';
+  async addSale(sale) {
+    const [saleAdd] = await connection
+      .execute('INSERT INTO StoreManager.sales (date) VALUES (default)');
+    
+    await sale.forEach(async (item) => {
+      await connection.execute(
+        'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+        [saleAdd.insertId, item.productId, item.quantity],
+      );
+    });
 
-    const [{ insertId }] = await connection.query(sql);
-
-    return insertId;
+    return saleAdd.insertId;
   },
-
-  async addSalesProducts(id, data) {
-    // console.log(id);
-    // console.log(data);
-    const sql = `INSERT INTO StoreManager
-    .sales_products (sale_id, product_id, quantity) VALUES ?`;
-    const map = data.map((item) => [id, item.productId, item.quantity]);
-    await connection.query(sql, [map]);
-  },
-
-  // async get(id) {
-  //   const sql = 'SELECT product_id, quantity FROM StoreManager.sales_products WHERE sale_id = ?;';
-
-  //   const table = await connection.query(sql, id);
-  //   return {
-  //     id,
-  //     itemsSold: table[0].map((ele) => ({
-  //       productId: ele.product_id,
-  //       quantity: ele.quantity,
-  //     })),
-  //   };
-  // },
 
   async get(id) {
     const carol = await connection
@@ -55,3 +39,19 @@ const salesModel = {
 };
 
 module.exports = salesModel;
+  // async addSale() {
+  //   const sql = 'INSERT INTO StoreManager.sales (date) VALUES (default)';
+
+  //   const [{ insertId }] = await connection.query(sql);
+
+  //   return insertId;
+  // },
+
+  // async addSalesProducts(id, data) {
+  //   const sql = `INSERT INTO StoreManager
+  //   .sales_products (sale_id, product_id, quantity) VALUES ?`;
+  //   const map = data.map((item) => [id, item.productId, item.quantity]);
+  //   console.log(map);
+  //   const carol = await connection.query(sql, [map]);
+  //   return carol;
+  // },
