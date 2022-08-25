@@ -10,4 +10,4 @@ const salesController = {
   },
 };
 
-module.exports = { salesController };
+module.exports = salesController;
