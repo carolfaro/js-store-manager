@@ -21,8 +21,24 @@ const salesModel = {
     return carol;
   },
 
+  async salesById(id) {
+     const [saleById] = await connection.execute(
+       `
+  SELECT s.date,
+         sp.product_id AS productId,
+         sp.quantity
+    FROM StoreManager.sales AS s
+   INNER JOIN StoreManager.sales_products AS sp
+      ON s.id = sp.sale_id
+   WHERE s.id = ?;`,
+       [id],
+     );
+    //  if (saleById.length === 0) return null;
+     return saleById;
+  },
+
   async getAllSales() {
-    const carol = await connection.execute(`
+    const sales = await connection.execute(`
   SELECT 
     s.id AS saleId,
     s.date AS date,
@@ -34,24 +50,11 @@ const salesModel = {
     StoreManager.sales_products AS sp
       ON s.id = sp.sale_id
   `);
-    return carol;
+    return sales;
   },
 };
 
 module.exports = salesModel;
-  // async addSale() {
-  //   const sql = 'INSERT INTO StoreManager.sales (date) VALUES (default)';
 
-  //   const [{ insertId }] = await connection.query(sql);
-
-  //   return insertId;
-  // },
-
-  // async addSalesProducts(id, data) {
-  //   const sql = `INSERT INTO StoreManager
-  //   .sales_products (sale_id, product_id, quantity) VALUES ?`;
-  //   const map = data.map((item) => [id, item.productId, item.quantity]);
-  //   console.log(map);
-  //   const carol = await connection.query(sql, [map]);
-  //   return carol;
-  // },
+// await salesModel.getAllSales();-> todas as vendas
+// salesModel.salesById(id); => por id

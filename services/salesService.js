@@ -21,41 +21,18 @@ const salesService = {
     return saleInserted;
   },
 
-  async get(id) {
-    const getSale = await salesModel.get(id);
-    return getSale;
+  async getAllSales() {
+    const sales = await salesModel.getAllSales();
+    return sales;
   },
 
-  async getAllSales(id = null) {
-    if (id) {
-      return salesModel.get(id);
-    }
-    return salesModel.getAllSales();
+  async getSalesById(id) {
+    const salesById = await salesModel.salesById(id);
+    return salesById;
   },
 };
 
 module.exports = salesService;
 
-  // async checkId(arrayOfId) {
-  //   const items = await productModel.checkIdProducts(arrayOfId);
-  //   console.log(items);
-  //   if (!items.length) return true;
-
-  //   items.forEach((item) => {
-  //     if (!arrayOfId.includes(item.productId)) {
-  //       return true;
-  //     }
-  //   });
-  // },
-
-  // async errorProduct(_req, res) {
-  //   res.status(404).json({ message: 'Product not found' });
-  // },
-  // const getByPK = async (id) => {
-  //   const [product] = await connection.execute(
-  //     "SELECT * FROM StoreManager.products WHERE id = ?;",
-  //     [id]
-  //   );
-  //   if (!product[0]) return null;
-  //   return product[0];
-  // };
+// await salesService.getAllSales(); -> todas as vendas
+// salesService.getSalesById(id);

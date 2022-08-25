@@ -25,19 +25,15 @@ const salesController = {
 
  async salesById(req, res) {
   const { id } = req.params;
-  const [rows] = await salesService.getAllSales(id);
+  const rows = await salesService.getSalesById(id);
   if (rows.length === 0) {
-    return res.status(404).json({ message: 'Product not found' });
+    return res.status(404).json({ message: 'Sale not found' });
   }
-  return res.status(200).json(rows[0]);
+  return res.status(200).json(rows);
 },
 };
 
 module.exports = salesController;
 
-//   const newSale = await salesService.add(data);
-  //   // console.log(req.body);
-  //   if (!newSale) {
-  //      return res.status(404).json({ message: 'Product not found' });
-  //   }
-  //  return res.status(201).json(newSale);
+// .get(salesController.allSales) -> todas as vendas
+// .get(salesController.salesById); -> pelo id
