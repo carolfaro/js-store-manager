@@ -5,8 +5,11 @@ const salesController = {
   async addSale(req, res) {
     const data = req.body;
     const id = await salesService.add(data);
-    const sale = await salesService.get(id);
-    res.status(201).json(sale);
+    // console.log(req.body);
+    if (!id) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    return res.status(201).json(id);
   },
 };
 

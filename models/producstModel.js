@@ -2,6 +2,11 @@ const connection = require('../db/index');
 
 const getProducts = () => connection.execute('SELECT * FROM StoreManager.products;');
 
+const findProductsId = async () => {
+  const [products] = await connection.execute('SELECT * FROM StoreManager.products');
+  return products;
+};
+
 const getProductsById = (id) => connection
   .execute('SELECT * FROM StoreManager.products WHERE id = ?;', [id]);
 
@@ -28,4 +33,5 @@ module.exports = {
   getProducts,
   getProductsById,
   addProducts,
+  findProductsId,
 };

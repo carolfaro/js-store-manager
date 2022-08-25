@@ -10,17 +10,18 @@ const salesModel = {
   },
 
   async addSalesProducts(id, data) {
+    // console.log(id);
+    // console.log(data);
     const sql = `INSERT INTO StoreManager
     .sales_products (sale_id, product_id, quantity) VALUES ?`;
     const map = data.map((item) => [id, item.productId, item.quantity]);
-
     await connection.query(sql, [map]);
   },
 
   async get(id) {
     const sql = 'SELECT product_id, quantity FROM StoreManager.sales_products WHERE sale_id = ?;';
 
-   const table = await connection.query(sql, id);
+    const table = await connection.query(sql, id);
     return {
       id,
       itemsSold: table[0].map((ele) => ({
@@ -29,7 +30,6 @@ const salesModel = {
       })),
     };
   },
-
 };
 
 module.exports = salesModel;
