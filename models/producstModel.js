@@ -8,7 +8,7 @@ const findProductsId = async () => {
 };
 
 const getProductsById = (id) => connection
-  .execute('SELECT * FROM StoreManager.products WHERE id = ?;', [id]);
+  .execute('SELECT * FROM StoreManager.sales WHERE id = ?;', [id]);
 
 const addProducts = async ({ name }) => {
   const [result] = await connection.execute(

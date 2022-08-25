@@ -27,6 +27,13 @@ const salesService = {
     const getSale = await salesModel.get(id);
     return getSale;
   },
+
+  async getAllSales(id = null) {
+    if (id) {
+      return salesModel.get(id);
+    }
+    return salesModel.getAllSales();
+  },
 };
 
 module.exports = salesService;
