@@ -18,6 +18,7 @@ const salesController = {
     }
   },
 
+  // teste 1S
   async allSales(_req, res) {
     const [rows] = await salesService.getAllSales();
       return res.status(200).json(rows);
