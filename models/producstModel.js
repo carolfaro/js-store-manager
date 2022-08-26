@@ -1,17 +1,20 @@
 const connection = require('../db/index');
 
+// testado 1
 const getProducts = () => connection.execute('SELECT * FROM StoreManager.products;');
 
+// falta essa
 const findProductsId = async () => {
   const [products] = await connection.execute('SELECT * FROM StoreManager.products');
-  // console.log(products);
+
   return products;
 };
-// cade o id
 
+// testado 2
 const getProductsById = (id) => connection
   .execute('SELECT * FROM StoreManager.products WHERE id = ?;', [id]);
 
+// testado 3
 const addProducts = async ({ name }) => {
   const [result] = await connection.execute(
    'INSERT INTO StoreManager.products (name) VALUES (?);',

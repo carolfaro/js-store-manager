@@ -6,8 +6,9 @@ const connection = require("../../../db/index");
 
 const salesModel = require("../../../models/salesModel");
 
-describe("Busca todas as vendas no bd", () => {
-  describe("quando não nenhum produto procurado", () => {
+describe("Busca todas as vendas no bd pela camada models", () => {
+  
+  describe("quando não nenhum produto procurado na busca geral", () => {
     before(() => {
       const resultExecute = [[]];
 
@@ -31,8 +32,8 @@ describe("Busca todas as vendas no bd", () => {
     });
   });
 
-  describe("quando existem  vendas procurados", () => {
-    /*Vamos mockar o array esperado na consulta ao banco de dados*/
+  describe("quando existem vendas procuradas pela busca geral", () => {
+   
     before(() => {
       const resultExecute = [
         {
@@ -67,16 +68,49 @@ describe("Busca todas as vendas no bd", () => {
 
       expect(item).to.be.an("object");
     });
+  });
+});
 
-    // it('tais itens possui as propriedades: "id", "title", "releaseYear" e "directedBy"', async () => {
-    //   const [item] = await MoviesModel.getAll();
+// teste busca pelo id
+describe("Busca vendas pelo id do produto camada models", () => {
+  describe("quando uma venda é encontrada", () => {
+    before(() => {
+      const resultExecute = [[
+        {
+            date: "2022-08-20T17:06:24.000Z",
+            productId: 3,
+            quantity: 15,
+          },],[]];
 
-    //   expect(item).to.include.all.keys(
-    //     "id",
-    //     "title",
-    //     "release_year",
-    //     "directed_by"
-    //   );
-    // });
+      sinon.stub(connection, "execute").resolves(resultExecute);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+     it("retorna um array", async () => {
+       const response = await salesModel.salesById(3);
+
+       expect(response).to.be.an("array");
+     });
+
+     it("o array não está vazio", async () => {
+       const response = await salesModel.salesById(3);
+
+       expect(response).to.not.be.empty;
+     });
+
+     it("o array possui itens do tipo objeto", async () => {
+       const [response] = await salesModel.salesById(3);
+
+       expect(response).to.be.an("object");
+     });
+
+     it("o objeto possui as chaves date, productId e quantity", async () => {
+       const [response] = await salesModel.salesById(3);
+
+       expect(response).to.include.all.keys("date", "productId", "quantity");
+     });
   });
 });

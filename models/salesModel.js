@@ -21,6 +21,7 @@ const salesModel = {
     return carol;
   },
 
+  // testado 2
   async salesById(id) {
      const [saleById] = await connection.execute(
        `
@@ -37,7 +38,7 @@ const salesModel = {
      return saleById;
   },
 
-  // teste 1
+  // testado 1
   async getAllSales() {
     const sales = await connection.execute(`
   SELECT 
