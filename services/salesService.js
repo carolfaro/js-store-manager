@@ -32,6 +32,16 @@ const salesService = {
     const salesById = await salesModel.salesById(id);
     return salesById;
   },
+
+  async deleteSale(id) {
+    const saleDelet = await salesModel.deleteSale(id);
+
+    const { affectedRows } = saleDelet;
+
+    if (affectedRows === 0) return false;
+
+    return affectedRows;
+  },
 };
 
 module.exports = salesService;

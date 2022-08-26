@@ -1,7 +1,6 @@
 const salesService = require('../services/salesService');
 
 const salesController = {
-
   // teste 3 OK falta retorno negativo
   async addSale(req, res) {
     const data = req.body;
@@ -22,18 +21,27 @@ const salesController = {
   // teste 1 OK
   async allSales(_req, res) {
     const [rows] = await salesService.getAllSales();
-      return res.status(200).json(rows);
+    return res.status(200).json(rows);
   },
 
   // teste 2 OK
- async salesById(req, res) {
-  const { id } = req.params;
-  const rows = await salesService.getSalesById(id);
-  if (rows.length === 0) {
-    return res.status(404).json({ message: 'Sale not found' });
-  }
-  return res.status(200).json(rows);
-},
+  async salesById(req, res) {
+    const { id } = req.params;
+    const rows = await salesService.getSalesById(id);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Sale not found' });
+    }
+    return res.status(200).json(rows);
+  },
+
+  async deleteSale(req, res) {
+    const { id } = req.params;
+    const rows = await salesService.deleteSale(id);
+    if (!rows) {
+      return res.status(404).json({ message: 'Sale not found' });
+    }
+    return res.status(204).end();
+  },
 };
 
 module.exports = salesController;
