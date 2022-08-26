@@ -16,7 +16,17 @@ const addProducts = async ({ name }) => {
   };
 };
 
+const updateProducts = async (id, name) => {
+  const update = await productsModel.updateProducts(id, name);
+  const { affectedRows } = update;
+
+  if (affectedRows === 0) return false;
+
+  return affectedRows;
+};
+
 module.exports = {
   getAllProducts,
   addProducts,
+  updateProducts,
 };

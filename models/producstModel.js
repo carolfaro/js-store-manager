@@ -27,16 +27,23 @@ const addProducts = async ({ name }) => {
   };
 };
 
-// const checkIdProducts = async (arrayOfId) => {
-//   const sql = 'SELECT * FROM StoreManager.products WHERE id IN (?);';
-
-//   const [items] = await connection.query(sql, [arrayOfId]);
-//   return items;
-// };
+const updateProducts = async (id, name) => {
+   const [row] = await connection.query(
+     `
+    UPDATE StoreManager.products
+    SET name = ?
+    WHERE id = ?;
+    `,
+     [name, id],
+   );
+  
+  return row;
+};
 
 module.exports = {
   getProducts,
   getProductsById,
   addProducts,
   findProductsId,
+  updateProducts,
 };
