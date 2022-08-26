@@ -2,13 +2,13 @@ const salesModel = require('../models/salesModel');
 const productsModel = require('../models/producstModel');
 
 const salesService = {
-// teste 3
+  // teste 3
   async add(data) {
     const allProducts = await productsModel.findProductsId();
 
     const validation = data.every((item) =>
       allProducts.some((ele) => ele.id === item.productId));
-    
+
     if (!validation) return false;
 
     const newSale = await salesModel.addSale(data);
@@ -41,6 +41,28 @@ const salesService = {
     if (affectedRows === 0) return false;
 
     return affectedRows;
+  },
+
+  async updateSale(id, body) {
+    const salesById = await salesModel.salesById(id);
+    console.log(salesById);
+    if (salesById.length === 0) return { message: 'Sale not found' };
+
+     const allProducts = await productsModel.findProductsId();
+
+    const validation = body.every((item) =>
+      allProducts.some((ele) => ele.id === item.productId));
+
+    if (!validation) return { message: 'Product not found' };
+
+    await salesModel.updateSale(id, body);
+
+    const saleUpdated = {
+      saleId: id,
+      itemsUpdated: body,
+    };
+
+    return saleUpdated;
   },
 };
 

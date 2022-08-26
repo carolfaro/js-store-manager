@@ -42,6 +42,21 @@ const salesController = {
     }
     return res.status(204).end();
   },
+
+  async updateSale(req, res) {
+    const { id } = req.params;
+
+    try {
+      const updateSaleOK = await salesService.updateSale(id, req.body);
+
+      if (updateSaleOK.message) {
+       return res.status(404).json(updateSaleOK);
+      }
+      return res.status(200).json(updateSaleOK);
+    } catch (error) {
+       res.status(500).json({ message: 'Server error' });
+    }
+  },
 };
 
 module.exports = salesController;

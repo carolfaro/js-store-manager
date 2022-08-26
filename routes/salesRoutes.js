@@ -5,12 +5,14 @@ const validateSaleMiddleware = require('../middlewares/salesValidation');
 
 const router = express.Router();
 
-router.route('/')
-  .get(salesController.allSales)
-  .post(validateSaleMiddleware, salesController.addSale);
+router
+  .route('/')
+  .post(validateSaleMiddleware, salesController.addSale)
+  .get(salesController.allSales);
 router
   .route('/:id')
   .get(salesController.salesById)
-  .delete(salesController.deleteSale);
+  .delete(salesController.deleteSale)
+  .put(validateSaleMiddleware, salesController.updateSale);
 
 module.exports = router;

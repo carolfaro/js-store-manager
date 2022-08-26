@@ -66,6 +66,24 @@ const salesModel = {
 
     return row;
   },
+
+  async updateSale(id, body) {
+    const updateSales = await Promise.all(
+      body.map(async (product) => {
+        const [row] = await connection.execute(
+          `UPDATE StoreManager.sales_products 
+        SET product_id = ?, 
+            quantity = ?
+        WHERE sale_id = ?
+        AND product_id = ?`,
+          [product.productId, product.quantity, id, product.productId],
+        );
+        return row.affectedRows;
+      }),
+    );
+    if (!updateSales) return false;
+    return true;
+  },
 };
 
 module.exports = salesModel;
