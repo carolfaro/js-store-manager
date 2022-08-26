@@ -35,9 +35,18 @@ const deleteProducts = async (id) => {
   return affectedRows;
 };
 
+const getProductsByName = async (q) => {
+  const findByName = await productsModel.getProductsByName(q);
+
+  if (findByName === 0) return false;
+
+  return findByName;
+};
+
 module.exports = {
   getAllProducts,
   addProducts,
   updateProducts,
   deleteProducts,
+  getProductsByName,
 };

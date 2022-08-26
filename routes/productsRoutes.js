@@ -11,6 +11,10 @@ router
   .post(productsValidation, productsController.addProducts);
 
 router
+  .route('/search')
+  .get(productsController.getProductsByName);
+
+router
   .route('/:id')
   .get(productsController.getByIdProducts)
   .put(productsValidation, productsController.updateProducts)
