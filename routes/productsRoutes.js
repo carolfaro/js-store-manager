@@ -13,6 +13,7 @@ router
 router
   .route('/:id')
   .get(productsController.getByIdProducts)
-  .put(productsValidation, productsController.updateProducts);
+  .put(productsValidation, productsController.updateProducts)
+  .delete(productsController.deleteProducts);
 
 module.exports = router;
