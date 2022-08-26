@@ -2,6 +2,7 @@ const salesService = require('../services/salesService');
 
 const salesController = {
 
+  // teste 3 OK falta retorno negativo
   async addSale(req, res) {
     const data = req.body;
 
@@ -18,12 +19,13 @@ const salesController = {
     }
   },
 
-  // teste 1S
+  // teste 1 OK
   async allSales(_req, res) {
     const [rows] = await salesService.getAllSales();
       return res.status(200).json(rows);
   },
 
+  // teste 2 OK
  async salesById(req, res) {
   const { id } = req.params;
   const rows = await salesService.getSalesById(id);

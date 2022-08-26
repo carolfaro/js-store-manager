@@ -37,6 +37,7 @@ const salesModel = {
      return saleById;
   },
 
+  // teste 1
   async getAllSales() {
     const sales = await connection.execute(`
   SELECT 

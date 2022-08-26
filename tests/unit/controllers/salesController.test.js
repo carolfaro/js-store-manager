@@ -36,37 +36,83 @@ describe("Busca vendas no db", () => {
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it("retorna um array json com os produtos buscados", async () => {
+    it("retorna um array json com as vendas buscadas", async () => {
       await salesController.allSales(request, response);
 
       expect(response.json.calledWith(stubSales[0])).to.be.equal(true);
     });
   });
 
-  // describe("Busca produtos pelo id", async () => {
-  //   const response = {};
-  //   const request = { params: "1" };
-  //   const stubProducts = [{ id: 1, name: "Martelo de Thor" }];
+  describe("Busca vendas pelo id", async () => {
+    const response = {};
+    const request = { params: "1" };
+    const stubSales = [
+      {
+        date: "2022-08-26T00:27:08.000Z",
+        productId: 1,
+        quantity: 5,
+      },
+      {
+        date: "2022-08-26T00:27:08.000Z",
+        productId: 2,
+        quantity: 10,
+      },
+    ];
 
-  //   before(() => {
-  //     response.status = sinon.stub().returns(response);
-  //     response.json = sinon.stub().returns();
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
 
-  //     sinon.stub(productsService, "getAllProducts").resolves(stubProducts);
-  //   });
+      sinon.stub(salesService, "getSalesById").resolves(stubSales);
+    });
 
-  //   after(() => productsService.getAllProducts.restore());
+    after(() => salesService.getSalesById.restore());
 
-  //   it("o status seja 200", async () => {
-  //     await productsController.getByIdProducts(request, response);
+    it("o status seja 200", async () => {
+      await salesController.salesById(request, response);
 
-  //     expect(response.status.calledWith(200)).to.be.equal(true);
-  //   });
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
 
-  //   it("retorna um array json com os produtos buscados", async () => {
-  //     await productsController.getAllProducts(request, response);
+    it("retorna um array json com os produtos buscados", async () => {
+      await salesController.salesById(request, response);
 
-  //     expect(response.json.calledWith(stubProducts[0])).to.be.equal(true);
-  //   });
-  // });
+      expect(response.json.calledWith(stubSales)).to.be.equal(true);
+    });
+  });
+
+    describe("Adiciona nova venda", async () => {
+      const response = {};
+      const request = {}
+      const stubSales = {
+        id: 2,
+        itemsSold: [
+          {
+            productId: 1,
+            quantity: 8,
+          },
+        ],
+      };
+
+      before(() => {
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(salesService, "add").resolves(stubSales);
+      });
+
+      after(() => salesService.add.restore());
+
+      it("o status seja 201", async () => {
+        await salesController.addSale(request, response);
+
+        expect(response.status.calledWith(201)).to.be.equal(true);
+      });
+
+      it("retorna um array json com as vendas adicionadas", async () => {
+        await salesController.addSale(request, response);
+
+        expect(response.json.calledWith(stubSales)).to.be.equal(true);
+      });
+    });
 });

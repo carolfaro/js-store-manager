@@ -65,4 +65,37 @@ describe('Busca produtos no db', () => {
        expect(response.json.calledWith(stubProducts[0])).to.be.equal(true);
      });
    });
+  
+   describe("Adiciona novo produto", async () => {
+     const response = {};
+     const request = {};
+     const stubProducts = {
+       id: 4,
+       name: "ProdutoX",
+     };
+
+     before(() => {
+       request.body = {
+         name: "ProdutoX",
+       };
+       response.status = sinon.stub().returns(response);
+       response.json = sinon.stub().returns();
+
+       sinon.stub(productsService, "addProducts").resolves(stubProducts);
+     });
+
+     after(() => productsService.addProducts.restore());
+
+     it("o status seja 201", async () => {
+       await productsController.addProducts(request, response);
+
+       expect(response.status.calledWith(201)).to.be.equal(true);
+     });
+
+     it("retorna um array json com as vendas adicionadas", async () => {
+       await productsController.addProducts(request, response);
+
+       expect(response.json.calledWith(stubProducts)).to.be.equal(true);
+     });
+   });
 });

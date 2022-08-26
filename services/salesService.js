@@ -2,7 +2,7 @@ const salesModel = require('../models/salesModel');
 const productsModel = require('../models/producstModel');
 
 const salesService = {
-
+// teste 3
   async add(data) {
     const allProducts = await productsModel.findProductsId();
 
@@ -21,11 +21,13 @@ const salesService = {
     return saleInserted;
   },
 
+  // teste 1
   async getAllSales() {
     const sales = await salesModel.getAllSales();
     return sales;
   },
 
+  // teste 2
   async getSalesById(id) {
     const salesById = await salesModel.salesById(id);
     return salesById;
